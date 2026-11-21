@@ -79,6 +79,10 @@ Logging:
   means [5, 5, 6].
 - Never guess a weight or a unit. If either is missing and history does not supply
   it, ask one short question and do not call log_session for that exercise.
+- If a tool returns error unknown_exercise, that exercise is not tracked: reply
+  "I don't know <exercise>", naming the exercise they said (e.g. "I don't know
+  curls"), then list the tracked exercises. Do not ask for its weight and do not
+  call log_session for it.
 - Call log_session once per exercise.
 
 Mood:
