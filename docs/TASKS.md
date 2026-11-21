@@ -49,7 +49,7 @@ Never cut: the deadlift sentence end to end, the tool trace, the typed fallback 
 ## Decisions and deviations
 
 - 14:21 — Task 0 merged (PR 3) with REVIEW: PASS + TEST: PASS; gate 0:25 met ~66 min late. The slip was waiting on the recorded clip (human action) and review queueing; no cut was needed. `NOTES.md` verified names: `mistral-large-4`, `voxtral-mini-transcribe-3-0`, `voxtral-mini-tts-3-0`, `context_bias` list on `transcriptions.complete`, `voice_id="voice_478"`, tone via inline `[emotion=…]`/`[pace=…]` tags, agents SDK `start_session()`/`session.run()`/`agent.session(id)` rebind.
-- 14:21 — PR 4 (`fix/test-runtime-skip`, tester's fix) open, no verdicts yet: makes `pytest -q` on main exit 0 while `app/` is absent (70 skipped). Needed so every later PR's TEST step runs clean.
+- 14:32 — PR 4 (`fix/test-runtime-skip`) merged (`18de2f9`) on REVIEW: PASS + TEST: PASS: `pytest -q` on main now exits 0 while `app/` is absent (70 skipped). Later PRs' TEST steps run clean.
 - 13:58 — PR 1 (Task 4): tester measured white-on-accent text at 3.91:1 vs the UI-SPEC line "at least 4.5:1 for all text"; reviewer passed it (18–26 px bold text, above the 3:1 large-text threshold). Accepted as reviewed; logged here for honesty.
 - 14:00 — T1 merged on REVIEW: PASS alone, per WORKFLOW.md tester-PR rule (reviewer only).
 
