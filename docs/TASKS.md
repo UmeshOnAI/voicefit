@@ -14,8 +14,8 @@ Status values: `todo`, `in progress`, `in review`, `changes requested`, `merged`
 |---|---|---|---|---|---|---|---|---|
 | 0 | Prove the API, write `NOTES.md` | core | — | 0:25 | merged | 3 | REVIEW: PASS | TEST: PASS |
 | 1 | Database and seed | core | — | 0:45 | merged | 5 | REVIEW: PASS | TEST: PASS |
-| 2 | Tools and comparison rule | core | 1 | 1:10 | in review | 6 | pending | pending |
-| 3 | Voice: transcribe and speak | core | 0 | 1:30 | todo | | | |
+| 2 | Tools and comparison rule | core | 1 | 1:10 | merged | 6 | REVIEW: PASS | TEST: PASS |
+| 3 | Voice: transcribe and speak | core | 0 | 1:30 | in progress | | | |
 | 4 | Page against the mock | ui | — | 1:30 | merged | 1 | REVIEW: PASS | TEST: PASS |
 | 5 | Agent and `/api/turn` | core | 0, 2, 3 | 2:30 | todo | | | |
 | 6 | Replay tests and hardening | core | 5 | 3:10 | todo | | | |
@@ -62,5 +62,6 @@ Never cut: the deadlift sentence end to end, the tool trace, the typed fallback 
   - **Which machine:** either. The mock/layout checks (steps 1–2) need no API key and can be run by Person 1 on the main checkout (`voicefit/static`). The end-to-end mic turn needs a backend + key: Person 2 runs it in the tester worktree on port **8001** (demo-critical, per PLAN.md "speaking to the app" is Person 2's job); Person 1 may smoke-test the mic path in the coder worktree on port **8000**. Browser and server must be on the same machine (localhost); one server per port per machine; each worktree has its own `voicefit.db`, so state is independent.
 - 14:41 — Person 1 browser run, all three human checks now DONE: mock page renders **PASS** (14:41); UI-SPEC check 6, 1280×720 no-scroll **PASS** (~15:00); real mic **PASS** (~15:00) — second click → `Thinking…`, console `recorded audio blob: N bytes, X ms`, mock turn rendered. (The 14:41 "no Thinking…" observation was the expected first-click-only state; `Thinking…` appears on the second click or the 30 s auto-stop per `static/app.js`; <500 ms recordings are silently discarded, app.js:213.) Remaining human-only check: the end-to-end mic turn once Task 5 merges.
 - 14:50 — Task 1 merged (PR 5, `a183c5f`) on REVIEW: PASS + TEST: PASS, ~75 min past its 0:45 target (review queueing after the Task 0 clip wait). Task 2 assigned to the core coder at 14:50.
+- 15:11 — Task 2 merged (PR 6, `cd00518`) on REVIEW: PASS + TEST: PASS. Task 3 assigned to the core coder at 15:11. Gate 2:30 (15:20) will be missed: Tasks 3 and 5 are still unmerged at 2:21 elapsed; if the end-to-end deadlift turn is not working by 15:35 the cut order applies (French run first).
 - 14:00 — Person 2: confirm the three recorded test clips exist and where; the tester needs one to run Task 0's smoke script on PR 3, and Task 3 needs clips too. **PR 3 has no TEST verdict at 14:10 and the 0:25 gate is ~55 min past; if no TEST by 14:15 the likely blocker is the missing clip — only a human can record it.**
 - 14:00 — Tester: post the TEST verdict on PR 3 (Task 0). Task 0 is past its 0:25 gate; this verdict is the recovery path.
