@@ -156,6 +156,18 @@ def list_exercises(path=None) -> list[dict]:
     return [{"id": r["id"], "name": r["name"]} for r in rows]
 
 
+def get_exercise(exercise_id: str, path=None) -> dict | None:
+    """One exercise as {"id", "name", "aliases"} (aliases parsed), or None."""
+    with closing(_conn(path)) as conn:
+        _ensure_schema(conn)
+        r = conn.execute(
+            "SELECT id, name, aliases FROM exercises WHERE id = ?", (exercise_id,)
+        ).fetchone()
+    if not r:
+        return None
+    return {"id": r["id"], "name": r["name"], "aliases": json.loads(r["aliases"])}
+
+
 def resolve_exercise(text, path=None) -> str | None:
     """Resolve a spoken/written exercise to its id via id, name or alias.
 
