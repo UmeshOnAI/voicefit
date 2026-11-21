@@ -1,7 +1,8 @@
 """Contract tests for Task 1: app/db.py and app/vocab.py.
 
-Written from docs/BUILD-BRIEF.md before the code exists. The whole module
-skips while app/db.py or app/vocab.py is not merged, so main always passes.
+Written from docs/BUILD-BRIEF.md before the code exists. Every test skips
+while app/db.py or app/vocab.py is not merged (at run time, so pytest still
+collects the tests and exits 0), so main always passes.
 
 Interface assumed from the brief (Task 1 implements to this):
 
@@ -24,11 +25,18 @@ import pytest
 try:
     import app.db as db
     import app.vocab as vocab
-except ImportError:
-    pytest.skip(
-        "app/db.py or app/vocab.py does not exist yet (Task 1 not merged)",
-        allow_module_level=True,
-    )
+    _IMPORT_ERROR = None
+except ImportError as exc:
+    # Skip at run time, not at collection: a module-level skip leaves pytest
+    # with zero collected items and exit code 5, and main must always pass.
+    db = vocab = None
+    _IMPORT_ERROR = exc
+
+
+@pytest.fixture(autouse=True)
+def _skip_while_module_missing():
+    if _IMPORT_ERROR is not None:
+        pytest.skip(f"app/db.py or app/vocab.py not merged yet: {_IMPORT_ERROR}")
 
 # The exercises table from the brief: id -> (name, aliases)
 EXPECTED_EXERCISES = {
