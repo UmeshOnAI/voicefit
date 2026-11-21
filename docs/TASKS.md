@@ -12,15 +12,15 @@ Status values: `todo`, `in progress`, `in review`, `changes requested`, `merged`
 
 | # | Task | Lane | Depends on | Target finish | Status | PR | Review | Test |
 |---|---|---|---|---|---|---|---|---|
-| 0 | Prove the API, write `NOTES.md` | core | — | 0:25 | in progress | | | |
-| 1 | Database and seed | core | — | 0:45 | todo | | | |
+| 0 | Prove the API, write `NOTES.md` | core | — | 0:25 | in review | 3 | REVIEW: PASS | TEST pending |
+| 1 | Database and seed | core | — | 0:45 | in progress | | | |
 | 2 | Tools and comparison rule | core | 1 | 1:10 | todo | | | |
 | 3 | Voice: transcribe and speak | core | 0 | 1:30 | todo | | | |
-| 4 | Page against the mock | ui | — | 1:30 | in progress | | | |
+| 4 | Page against the mock | ui | — | 1:30 | merged | 1 | REVIEW: PASS | TEST: PASS |
 | 5 | Agent and `/api/turn` | core | 0, 2, 3 | 2:30 | todo | | | |
 | 6 | Replay tests and hardening | core | 5 | 3:10 | todo | | | |
-| T1 | Tests for Tasks 1 and 2 from the contracts | tester | — | 0:30 | in progress | | | |
-| T2 | `scripts/replay.py` | tester | — | 1:30 | todo | | | |
+| T1 | Tests for Tasks 1 and 2 from the contracts | tester | — | 0:30 | merged | 2 | REVIEW: PASS | n/a (reviewer-only per WORKFLOW) |
+| T2 | `scripts/replay.py` | tester | — | 1:30 | in progress | | | |
 
 Task 1 does not need Task 0, so if Task 0 is waiting on a human (key, clip), the core coder starts Task 1.
 
@@ -48,9 +48,11 @@ Never cut: the deadlift sentence end to end, the tool trace, the typed fallback 
 
 ## Decisions and deviations
 
-_(coordinator logs anything that departs from the brief, with the time and the reason)_
+- 14:00 — Task 0 is late against its 0:25 target (PR 3 opened 13:45, REVIEW: PASS, TEST still pending). Gate 0:25 therefore missed by >15 min; recovery is one TEST verdict away, so no cut proposed yet. If TEST has not passed by 14:15, reassess against the cut order.
+- 13:58 — PR 1 (Task 4): tester measured white-on-accent text at 3.91:1 vs the UI-SPEC line "at least 4.5:1 for all text"; reviewer passed it (18–26 px bold text, above the 3:1 large-text threshold). Accepted as reviewed; logged here for honesty.
+- 14:00 — T1 merged on REVIEW: PASS alone, per WORKFLOW.md tester-PR rule (reviewer only).
 
 ## Human actions waiting
 
-- 12:50 — Person 2: record the three test clips (per PLAN.md 0:00–0:25) so Task 0 and Task 3 have audio. Task 0 is blocked without a clip.
-- 12:50 — Both people: open the four agent sessions in their worktrees (`voicefit-wt/coder`, `coder-ui`, `reviewer`, `tester`) with the first-message script from `docs/WORKFLOW.md`; coordinator assigns Task 0 to core coder, Task 4 to ui coder, T1 to tester.
+- 14:00 — Person 2: confirm the three recorded test clips exist and where; the tester needs one to run Task 0's smoke script on PR 3, and Task 3 needs clips too.
+- 14:00 — Tester: post the TEST verdict on PR 3 (Task 0). Task 0 is past its 0:25 gate; this verdict is the recovery path.
