@@ -17,10 +17,10 @@ Status values: `todo`, `in progress`, `in review`, `changes requested`, `merged`
 | 2 | Tools and comparison rule | core | 1 | 1:10 | merged | 6 | REVIEW: PASS | TEST: PASS |
 | 3 | Voice: transcribe and speak | core | 0 | 1:30 | merged | 7 | REVIEW: PASS | TEST: PASS |
 | 4 | Page against the mock | ui | — | 1:30 | merged | 1 | REVIEW: PASS | TEST: PASS |
-| 5 | Agent and `/api/turn` | core | 0, 2, 3 | 2:30 | in progress | | | |
-| 6 | Replay tests and hardening | core | 5 | 3:10 | todo | | | |
+| 5 | Agent and `/api/turn` | core | 0, 2, 3 | 2:30 | merged | 9 | REVIEW: PASS (round 2) | TEST: PASS (round 2, after one fix) |
+| 6 | Replay tests and hardening | core | 5 | 3:10 | in progress | | | |
 | T1 | Tests for Tasks 1 and 2 from the contracts | tester | — | 0:30 | merged | 2 | REVIEW: PASS | n/a (reviewer-only per WORKFLOW) |
-| T2 | `scripts/replay.py` | tester | — | 1:30 | in review | 8 | pending | n/a (reviewer-only per WORKFLOW) |
+| T2 | `scripts/replay.py` | tester | — | 1:30 | merged | 8 | REVIEW: PASS | n/a (reviewer-only per WORKFLOW) |
 
 Task 1 does not need Task 0, so if Task 0 is waiting on a human (key, clip), the core coder starts Task 1.
 
@@ -29,8 +29,8 @@ Task 1 does not need Task 0, so if Task 0 is waiting on a human (key, clip), the
 | Time | Gate | Met? |
 |---|---|---|
 | 0:25 | `NOTES.md` has working model IDs and parameter names | Met 14:21 via PR 3 — ~66 min late |
-| 2:30 | Spoken deadlift sentence saves exactly one session with [5, 5, 6] and the spoken comparison matches the screen | **Missed** — Task 5 unmerged at 15:38 (18 min past). Recovery: Task 5 merged + deadlift turn verified before the 16:30 freeze |
-| 3:10 → 16:30 | Feature freeze (moved from 16:00); all eight replay transcripts pass | |
+| 2:30 | Spoken deadlift sentence saves exactly one session with [5, 5, 6] and the spoken comparison matches the screen | **Missed at 15:20; recovered 16:33 on main** — coordinator ran it live on port 8000: exactly 1 save, `romanian_deadlift` 80.0 kg [5,5,6] total 16, outcome `beat` delta +1, tone `pleased`, audio present, trace `get_last_session → log_session`, reply "…16 total reps, one more than last time." |
+| 3:10 → 16:30 | Feature freeze (moved from 16:00); all eight replay transcripts pass | Freeze reached 16:30 with Task 5 merged (`3bf3bfe`); **replay 8/8 PASS at 16:33** on main. Remaining Task 6 work (generated variations + README pass rate) goes on `fix/` branches only |
 | 3:40 → 17:00 | Submission video recorded and checked on a second device | |
 
 If a gate is missed by more than 15 minutes, the coordinator stops and tells the humans, with a proposal for what to cut.
@@ -66,5 +66,6 @@ Never cut: the deadlift sentence end to end, the tool trace, the typed fallback 
 - 15:38 — Humans extended the submission deadline to **17:30 London**. Coordinator decision, same minute: feature freeze moves 16:00 → **16:30** and the video gate 16:30 → **17:00**, keeping 30 min for submission. Clock start unchanged (12:50).
 - 15:38 — Gate 2:30 formally **missed by >15 min** (Task 5 unmerged at 15:38). Per the rules the cut order is now armed: French run is already optional and effectively out; next cuts in order are the three voice tones (fall back to one voice) and multi-exercise recap — to be applied only if Task 5 or Task 6 threatens the 16:30 freeze. Never-cut list stands.
 - 15:37 — Task 3 merged (PR 7, `02316a3`) on REVIEW: PASS + TEST: PASS (pytest 88 passed). Task 5 assigned to the core coder at 15:38 — all its dependencies (0, 2, 3) are merged.
+- 16:33 — PR 8 (T2, `scripts/replay.py`) merged `199f72c` on REVIEW: PASS. PR 9 (Task 5, `app/main.py` + `app/agent.py`) merged `3bf3bfe` after one fix round (TEST: FAIL → coder fix `8c69a6f` → REVIEW: PASS + TEST: PASS; within the two-round limit). Coordinator verified the 2:30-gate scenario live on main (see gates) and ran `scripts/replay.py` → **8/8 PASS** at 16:33. A server is left running on port 8000 in the main checkout for the end-to-end browser mic test.
 - 14:00 — Person 2: confirm the three recorded test clips exist and where; the tester needs one to run Task 0's smoke script on PR 3, and Task 3 needs clips too. **PR 3 has no TEST verdict at 14:10 and the 0:25 gate is ~55 min past; if no TEST by 14:15 the likely blocker is the missing clip — only a human can record it.**
 - 14:00 — Tester: post the TEST verdict on PR 3 (Task 0). Task 0 is past its 0:25 gate; this verdict is the recovery path.
