@@ -18,7 +18,7 @@ Status values: `todo`, `in progress`, `in review`, `changes requested`, `merged`
 | 3 | Voice: transcribe and speak | core | 0 | 1:30 | merged | 7 | REVIEW: PASS | TEST: PASS |
 | 4 | Page against the mock | ui | — | 1:30 | merged | 1 | REVIEW: PASS | TEST: PASS |
 | 5 | Agent and `/api/turn` | core | 0, 2, 3 | 2:30 | merged | 9 | REVIEW: PASS (round 2) | TEST: PASS (round 2, after one fix) |
-| 6 | Replay tests and hardening (remainder: variations + README, `fix/` branch only — freeze passed) | core | 5 | 3:10 | in progress | | | |
+| 6 | Replay tests and hardening | core | 5 | 3:10 | merged | 10 | REVIEW: PASS | TEST: PASS |
 | T1 | Tests for Tasks 1 and 2 from the contracts | tester | — | 0:30 | merged | 2 | REVIEW: PASS | n/a (reviewer-only per WORKFLOW) |
 | T2 | `scripts/replay.py` | tester | — | 1:30 | merged | 8 | REVIEW: PASS | n/a (reviewer-only per WORKFLOW) |
 
@@ -30,8 +30,8 @@ Task 1 does not need Task 0, so if Task 0 is waiting on a human (key, clip), the
 |---|---|---|
 | 0:25 | `NOTES.md` has working model IDs and parameter names | Met 14:21 via PR 3 — ~66 min late |
 | 2:30 | Spoken deadlift sentence saves exactly one session with [5, 5, 6] and the spoken comparison matches the screen | **Missed at 15:20; recovered 16:33 on main** — coordinator ran it live on port 8000: exactly 1 save, `romanian_deadlift` 80.0 kg [5,5,6] total 16, outcome `beat` delta +1, tone `pleased`, audio present, trace `get_last_session → log_session`, reply "…16 total reps, one more than last time." |
-| 3:10 → 16:30 | Feature freeze (moved from 16:00); all eight replay transcripts pass | Freeze reached 16:30 with Task 5 merged (`3bf3bfe`); **replay 8/8 PASS at 16:33** on main. Remaining Task 6 work (generated variations + README pass rate) goes on `fix/` branches only |
-| 3:40 → 17:00 | Submission video recorded and checked on a second device | |
+| 3:10 → 16:30 | Feature freeze (moved from 16:00); all eight replay transcripts pass | **Met** — Task 5 merged 16:30 (`3bf3bfe`); replay **8/8 PASS** at 16:33 (coordinator, main, port 8000) and re-confirmed 17:22 (tester, PR 10, port 8001); pytest 99 passed. Task 6 remainder merged as PR 10 (`ba5502a`): variations **36/40 (90%)**, 4 failures reported honestly in README, not fixed per freeze ruling |
+| 3:40 → 17:00 | Submission video recorded and checked on a second device | Open at 17:23 — needs Person 2's status now |
 
 If a gate is missed by more than 15 minutes, the coordinator stops and tells the humans, with a proposal for what to cut.
 
@@ -55,6 +55,8 @@ Never cut: the deadlift sentence end to end, the tool trace, the typed fallback 
 
 ## Human actions waiting
 
+- 17:23 — **Person 2, urgent:** video gate 17:00 has passed — confirm the submission video is recorded (mood question, deadlift moment, changed number, trace, recap, no-history question), audio checked on a second device, and submission lands before **18:00** (37 min). This is the only remaining gate.
+- Optional, only if everything above is done early: PLAN.md fifth-hour activity — five unfamiliar utterances from people outside the team, report the real result to the jury.
 - 14:10 — Person 2, on merged PR 1 (Task 4 page): run in a real browser the two checks the tester could not: UI-SPEC acceptance check 6 (everything visible at 1280×720 without scrolling) and a real microphone recording (MediaRecorder → blob → POST `/api/turn`). Flagged "not run" in the PR 1 TEST comment; the TEST: PASS verdict stands for everything else. **How to run them in a real browser (main checkout, after `git pull`):**
   1. Mock page, no backend needed: `cd static` then `python -m http.server 8099`, open `http://localhost:8099/index.html?mock=1` in Chrome/Edge. Confirm the transcript, coach reply, highlighted BEAT row, Low chip and collapsed trace all render (the tester's harness proved logic; this proves layout).
   2. Check 6: set the window to exactly 1280×720 (DevTools device toolbar), reload `?mock=1`, confirm no page scrollbar appears and Heard/Coach/sessions/trace-summary are all visible without scrolling.
@@ -67,6 +69,7 @@ Never cut: the deadlift sentence end to end, the tool trace, the typed fallback 
 - 16:38 — Humans extended the submission deadline again, to **18:00 London**. Freeze stays at **16:30** (already passed): the extra 30 min buy video/submission/README buffer only — per the freeze rule, no new features, only `fix/` branches. Video gate stays at 17:00 to preserve buffer.
 - 16:40 — Scope question from the humans: "can we add features if time remains?" **No.** AGENTS.md rule 7 and the coordinator role refuse anything beyond the brief, and the 16:30 freeze has passed — only `fix/` branches. The only sanctioned extra with spare time is the PLAN's fifth-hour activity: five unfamiliar utterances from people outside the team, reported honestly to the jury — an evaluation, not an app change.
 - 16:41 — Task 6 remainder assigned to the core coder as `fix/task6-variations-readme` (variations + README only; no `app/`/`static/` behavior changes). Coordinator's port-8000 verification server in the main checkout was stopped at 16:41 so the coder owns port 8000.
+- 17:23 — PR 10 merged (`ba5502a`, README-only): replay 8/8, variations 36/40 (90%) with the 4 failures written honestly into README.md (two kind-1 paraphrases saved [5,5,5,6] instead of [5,5,6]; tersest kind-6 "Forty." saved nothing; one kind-8 variation asked for weight without a tool call). Not fixed — freeze scope, and the brief only requires reporting the pass rate. **All nine task rows are now `merged`; the build is code-complete.** Remaining: human-only video/submission before 18:00.
 - 15:38 — Gate 2:30 formally **missed by >15 min** (Task 5 unmerged at 15:38). Per the rules the cut order is now armed: French run is already optional and effectively out; next cuts in order are the three voice tones (fall back to one voice) and multi-exercise recap — to be applied only if Task 5 or Task 6 threatens the 16:30 freeze. Never-cut list stands.
 - 15:37 — Task 3 merged (PR 7, `02316a3`) on REVIEW: PASS + TEST: PASS (pytest 88 passed). Task 5 assigned to the core coder at 15:38 — all its dependencies (0, 2, 3) are merged.
 - 16:33 — PR 8 (T2, `scripts/replay.py`) merged `199f72c` on REVIEW: PASS. PR 9 (Task 5, `app/main.py` + `app/agent.py`) merged `3bf3bfe` after one fix round (TEST: FAIL → coder fix `8c69a6f` → REVIEW: PASS + TEST: PASS; within the two-round limit). Coordinator verified the 2:30-gate scenario live on main (see gates) and ran `scripts/replay.py` → **8/8 PASS** at 16:33. A server is left running on port 8000 in the main checkout for the end-to-end browser mic test.
