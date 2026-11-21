@@ -3,8 +3,8 @@
 Owned by the coordinator. Updated after every assignment, verdict and merge. This file is the single record of where the build stands.
 
 **Clock start:** 12:50 London, Saturday 21 November 2026
-**Feature freeze:** 16:00 London (clock start + 3:10)
-**Submission deadline:** 18:00 London time
+**Feature freeze:** 16:30 London (moved from 16:00 at 15:38 — see decisions)
+**Submission deadline:** 17:30 London time (extended from 18:00 by the humans at 15:38)
 
 ## Tasks
 
@@ -15,12 +15,12 @@ Status values: `todo`, `in progress`, `in review`, `changes requested`, `merged`
 | 0 | Prove the API, write `NOTES.md` | core | — | 0:25 | merged | 3 | REVIEW: PASS | TEST: PASS |
 | 1 | Database and seed | core | — | 0:45 | merged | 5 | REVIEW: PASS | TEST: PASS |
 | 2 | Tools and comparison rule | core | 1 | 1:10 | merged | 6 | REVIEW: PASS | TEST: PASS |
-| 3 | Voice: transcribe and speak | core | 0 | 1:30 | in progress | | | |
+| 3 | Voice: transcribe and speak | core | 0 | 1:30 | merged | 7 | REVIEW: PASS | TEST: PASS |
 | 4 | Page against the mock | ui | — | 1:30 | merged | 1 | REVIEW: PASS | TEST: PASS |
-| 5 | Agent and `/api/turn` | core | 0, 2, 3 | 2:30 | todo | | | |
+| 5 | Agent and `/api/turn` | core | 0, 2, 3 | 2:30 | in progress | | | |
 | 6 | Replay tests and hardening | core | 5 | 3:10 | todo | | | |
 | T1 | Tests for Tasks 1 and 2 from the contracts | tester | — | 0:30 | merged | 2 | REVIEW: PASS | n/a (reviewer-only per WORKFLOW) |
-| T2 | `scripts/replay.py` | tester | — | 1:30 | in progress | | | |
+| T2 | `scripts/replay.py` | tester | — | 1:30 | in review | 8 | pending | n/a (reviewer-only per WORKFLOW) |
 
 Task 1 does not need Task 0, so if Task 0 is waiting on a human (key, clip), the core coder starts Task 1.
 
@@ -29,9 +29,9 @@ Task 1 does not need Task 0, so if Task 0 is waiting on a human (key, clip), the
 | Time | Gate | Met? |
 |---|---|---|
 | 0:25 | `NOTES.md` has working model IDs and parameter names | Met 14:21 via PR 3 — ~66 min late |
-| 2:30 | Spoken deadlift sentence saves exactly one session with [5, 5, 6] and the spoken comparison matches the screen | |
-| 3:10 | Feature freeze; all eight replay transcripts pass | |
-| 3:40 | Submission video recorded and checked on a second device | |
+| 2:30 | Spoken deadlift sentence saves exactly one session with [5, 5, 6] and the spoken comparison matches the screen | **Missed** — Task 5 unmerged at 15:38 (18 min past). Recovery: Task 5 merged + deadlift turn verified before the 16:30 freeze |
+| 3:10 → 16:30 | Feature freeze (moved from 16:00); all eight replay transcripts pass | |
+| 3:40 → 17:00 | Submission video recorded and checked on a second device | |
 
 If a gate is missed by more than 15 minutes, the coordinator stops and tells the humans, with a proposal for what to cut.
 
@@ -62,6 +62,9 @@ Never cut: the deadlift sentence end to end, the tool trace, the typed fallback 
   - **Which machine:** either. The mock/layout checks (steps 1–2) need no API key and can be run by Person 1 on the main checkout (`voicefit/static`). The end-to-end mic turn needs a backend + key: Person 2 runs it in the tester worktree on port **8001** (demo-critical, per PLAN.md "speaking to the app" is Person 2's job); Person 1 may smoke-test the mic path in the coder worktree on port **8000**. Browser and server must be on the same machine (localhost); one server per port per machine; each worktree has its own `voicefit.db`, so state is independent.
 - 14:41 — Person 1 browser run, all three human checks now DONE: mock page renders **PASS** (14:41); UI-SPEC check 6, 1280×720 no-scroll **PASS** (~15:00); real mic **PASS** (~15:00) — second click → `Thinking…`, console `recorded audio blob: N bytes, X ms`, mock turn rendered. (The 14:41 "no Thinking…" observation was the expected first-click-only state; `Thinking…` appears on the second click or the 30 s auto-stop per `static/app.js`; <500 ms recordings are silently discarded, app.js:213.) Remaining human-only check: the end-to-end mic turn once Task 5 merges.
 - 14:50 — Task 1 merged (PR 5, `a183c5f`) on REVIEW: PASS + TEST: PASS, ~75 min past its 0:45 target (review queueing after the Task 0 clip wait). Task 2 assigned to the core coder at 14:50.
-- 15:11 — Task 2 merged (PR 6, `cd00518`) on REVIEW: PASS + TEST: PASS. Task 3 assigned to the core coder at 15:11. Gate 2:30 (15:20) will be missed: Tasks 3 and 5 are still unmerged at 2:21 elapsed; if the end-to-end deadlift turn is not working by 15:35 the cut order applies (French run first).
+- 15:11 — Task 2 merged (PR 6, `cd00518`) on REVIEW: PASS + TEST: PASS. Task 3 assigned to the core coder at 15:11.
+- 15:38 — Humans extended the submission deadline to **17:30 London**. Coordinator decision, same minute: feature freeze moves 16:00 → **16:30** and the video gate 16:30 → **17:00**, keeping 30 min for submission. Clock start unchanged (12:50).
+- 15:38 — Gate 2:30 formally **missed by >15 min** (Task 5 unmerged at 15:38). Per the rules the cut order is now armed: French run is already optional and effectively out; next cuts in order are the three voice tones (fall back to one voice) and multi-exercise recap — to be applied only if Task 5 or Task 6 threatens the 16:30 freeze. Never-cut list stands.
+- 15:37 — Task 3 merged (PR 7, `02316a3`) on REVIEW: PASS + TEST: PASS (pytest 88 passed). Task 5 assigned to the core coder at 15:38 — all its dependencies (0, 2, 3) are merged.
 - 14:00 — Person 2: confirm the three recorded test clips exist and where; the tester needs one to run Task 0's smoke script on PR 3, and Task 3 needs clips too. **PR 3 has no TEST verdict at 14:10 and the 0:25 gate is ~55 min past; if no TEST by 14:15 the likely blocker is the missing clip — only a human can record it.**
 - 14:00 — Tester: post the TEST verdict on PR 3 (Task 0). Task 0 is past its 0:25 gate; this verdict is the recovery path.
