@@ -18,7 +18,7 @@ Status values: `todo`, `in progress`, `in review`, `changes requested`, `merged`
 | 3 | Voice: transcribe and speak | core | 0 | 1:30 | merged | 7 | REVIEW: PASS | TEST: PASS |
 | 4 | Page against the mock | ui | — | 1:30 | merged | 1 | REVIEW: PASS | TEST: PASS |
 | 5 | Agent and `/api/turn` | core | 0, 2, 3 | 2:30 | merged | 9 | REVIEW: PASS (round 2) | TEST: PASS (round 2, after one fix) |
-| 6 | Replay tests and hardening | core | 5 | 3:10 | in progress | | | |
+| 6 | Replay tests and hardening (remainder: variations + README, `fix/` branch only — freeze passed) | core | 5 | 3:10 | in progress | | | |
 | T1 | Tests for Tasks 1 and 2 from the contracts | tester | — | 0:30 | merged | 2 | REVIEW: PASS | n/a (reviewer-only per WORKFLOW) |
 | T2 | `scripts/replay.py` | tester | — | 1:30 | merged | 8 | REVIEW: PASS | n/a (reviewer-only per WORKFLOW) |
 
@@ -66,6 +66,7 @@ Never cut: the deadlift sentence end to end, the tool trace, the typed fallback 
 - 15:38 — Humans extended the submission deadline to **17:30 London**. Coordinator decision, same minute: feature freeze moves 16:00 → **16:30** and the video gate 16:30 → **17:00**, keeping 30 min for submission. Clock start unchanged (12:50).
 - 16:38 — Humans extended the submission deadline again, to **18:00 London**. Freeze stays at **16:30** (already passed): the extra 30 min buy video/submission/README buffer only — per the freeze rule, no new features, only `fix/` branches. Video gate stays at 17:00 to preserve buffer.
 - 16:40 — Scope question from the humans: "can we add features if time remains?" **No.** AGENTS.md rule 7 and the coordinator role refuse anything beyond the brief, and the 16:30 freeze has passed — only `fix/` branches. The only sanctioned extra with spare time is the PLAN's fifth-hour activity: five unfamiliar utterances from people outside the team, reported honestly to the jury — an evaluation, not an app change.
+- 16:41 — Task 6 remainder assigned to the core coder as `fix/task6-variations-readme` (variations + README only; no `app/`/`static/` behavior changes). Coordinator's port-8000 verification server in the main checkout was stopped at 16:41 so the coder owns port 8000.
 - 15:38 — Gate 2:30 formally **missed by >15 min** (Task 5 unmerged at 15:38). Per the rules the cut order is now armed: French run is already optional and effectively out; next cuts in order are the three voice tones (fall back to one voice) and multi-exercise recap — to be applied only if Task 5 or Task 6 threatens the 16:30 freeze. Never-cut list stands.
 - 15:37 — Task 3 merged (PR 7, `02316a3`) on REVIEW: PASS + TEST: PASS (pytest 88 passed). Task 5 assigned to the core coder at 15:38 — all its dependencies (0, 2, 3) are merged.
 - 16:33 — PR 8 (T2, `scripts/replay.py`) merged `199f72c` on REVIEW: PASS. PR 9 (Task 5, `app/main.py` + `app/agent.py`) merged `3bf3bfe` after one fix round (TEST: FAIL → coder fix `8c69a6f` → REVIEW: PASS + TEST: PASS; within the two-round limit). Coordinator verified the 2:30-gate scenario live on main (see gates) and ran `scripts/replay.py` → **8/8 PASS** at 16:33. A server is left running on port 8000 in the main checkout for the end-to-end browser mic test.
