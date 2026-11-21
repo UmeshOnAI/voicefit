@@ -4,7 +4,7 @@ Owned by the coordinator. Updated after every assignment, verdict and merge. Thi
 
 **Clock start:** 12:50 London, Saturday 21 November 2026
 **Feature freeze:** 16:30 London (moved from 16:00 at 15:38 — see decisions)
-**Submission deadline:** 17:30 London time (extended from 18:00 by the humans at 15:38)
+**Submission deadline:** 18:00 London time (extended again by the humans at 16:38; was 17:30 from 15:38, originally 18:00)
 
 ## Tasks
 
@@ -64,6 +64,7 @@ Never cut: the deadlift sentence end to end, the tool trace, the typed fallback 
 - 14:50 — Task 1 merged (PR 5, `a183c5f`) on REVIEW: PASS + TEST: PASS, ~75 min past its 0:45 target (review queueing after the Task 0 clip wait). Task 2 assigned to the core coder at 14:50.
 - 15:11 — Task 2 merged (PR 6, `cd00518`) on REVIEW: PASS + TEST: PASS. Task 3 assigned to the core coder at 15:11.
 - 15:38 — Humans extended the submission deadline to **17:30 London**. Coordinator decision, same minute: feature freeze moves 16:00 → **16:30** and the video gate 16:30 → **17:00**, keeping 30 min for submission. Clock start unchanged (12:50).
+- 16:38 — Humans extended the submission deadline again, to **18:00 London**. Freeze stays at **16:30** (already passed): the extra 30 min buy video/submission/README buffer only — per the freeze rule, no new features, only `fix/` branches. Video gate stays at 17:00 to preserve buffer.
 - 15:38 — Gate 2:30 formally **missed by >15 min** (Task 5 unmerged at 15:38). Per the rules the cut order is now armed: French run is already optional and effectively out; next cuts in order are the three voice tones (fall back to one voice) and multi-exercise recap — to be applied only if Task 5 or Task 6 threatens the 16:30 freeze. Never-cut list stands.
 - 15:37 — Task 3 merged (PR 7, `02316a3`) on REVIEW: PASS + TEST: PASS (pytest 88 passed). Task 5 assigned to the core coder at 15:38 — all its dependencies (0, 2, 3) are merged.
 - 16:33 — PR 8 (T2, `scripts/replay.py`) merged `199f72c` on REVIEW: PASS. PR 9 (Task 5, `app/main.py` + `app/agent.py`) merged `3bf3bfe` after one fix round (TEST: FAIL → coder fix `8c69a6f` → REVIEW: PASS + TEST: PASS; within the two-round limit). Coordinator verified the 2:30-gate scenario live on main (see gates) and ran `scripts/replay.py` → **8/8 PASS** at 16:33. A server is left running on port 8000 in the main checkout for the end-to-end browser mic test.
