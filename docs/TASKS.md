@@ -13,8 +13,8 @@ Status values: `todo`, `in progress`, `in review`, `changes requested`, `merged`
 | # | Task | Lane | Depends on | Target finish | Status | PR | Review | Test |
 |---|---|---|---|---|---|---|---|---|
 | 0 | Prove the API, write `NOTES.md` | core | — | 0:25 | merged | 3 | REVIEW: PASS | TEST: PASS |
-| 1 | Database and seed | core | — | 0:45 | in review | 5 | pending | pending |
-| 2 | Tools and comparison rule | core | 1 | 1:10 | todo | | | |
+| 1 | Database and seed | core | — | 0:45 | merged | 5 | REVIEW: PASS | TEST: PASS |
+| 2 | Tools and comparison rule | core | 1 | 1:10 | in progress | | | |
 | 3 | Voice: transcribe and speak | core | 0 | 1:30 | todo | | | |
 | 4 | Page against the mock | ui | — | 1:30 | merged | 1 | REVIEW: PASS | TEST: PASS |
 | 5 | Agent and `/api/turn` | core | 0, 2, 3 | 2:30 | todo | | | |
@@ -61,6 +61,6 @@ Never cut: the deadlift sentence end to end, the tool trace, the typed fallback 
   3. Real mic: with the mock page, click the mic, allow microphone permission, speak any sentence for ~1 s, stop. Expect status Listening… → Thinking… → back to idle, a console line `recorded audio blob: N bytes`, and (mock mode) the mock turn rendered. A full end-to-end mic turn needs Task 5's server: in the coder worktree `uv run uvicorn app.main:app --port 8000`, open `http://localhost:8000/`, hold the mic and say the deadlift sentence.
   - **Which machine:** either. The mock/layout checks (steps 1–2) need no API key and can be run by Person 1 on the main checkout (`voicefit/static`). The end-to-end mic turn needs a backend + key: Person 2 runs it in the tester worktree on port **8001** (demo-critical, per PLAN.md "speaking to the app" is Person 2's job); Person 1 may smoke-test the mic path in the coder worktree on port **8000**. Browser and server must be on the same machine (localhost); one server per port per machine; each worktree has its own `voicefit.db`, so state is independent.
 - 14:41 — Person 1 browser run: mock page **renders (PASS)**. Mic: status reached `Listening…` but `Thinking…` not yet observed — per `static/app.js`, `Thinking…` appears only on the **second click** on the mic button (or after the 30 s auto-stop); a recording under 500 ms is silently discarded back to idle (app.js:213). Debug in DevTools **Console** (F12 → Console): expect `recorded audio blob: N bytes, X ms` after the second click; in `?mock=1` the turn comes from `mock-turn.json` (Network tab, 200), not `/api/turn`. Serve from `http://localhost` only — a LAN IP is not a secure context and blocks getUserMedia.
-- 14:41 — PR 5 (Task 1) open 20 min with no verdicts; reviewer and tester please pick it up now — it is the critical path for Task 2.
+- 14:50 — Task 1 merged (PR 5, `a183c5f`) on REVIEW: PASS + TEST: PASS, ~75 min past its 0:45 target (review queueing after the Task 0 clip wait). Task 2 assigned to the core coder at 14:50.
 - 14:00 — Person 2: confirm the three recorded test clips exist and where; the tester needs one to run Task 0's smoke script on PR 3, and Task 3 needs clips too. **PR 3 has no TEST verdict at 14:10 and the 0:25 gate is ~55 min past; if no TEST by 14:15 the likely blocker is the missing clip — only a human can record it.**
 - 14:00 — Tester: post the TEST verdict on PR 3 (Task 0). Task 0 is past its 0:25 gate; this verdict is the recovery path.
