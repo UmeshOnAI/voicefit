@@ -54,5 +54,6 @@ Never cut: the deadlift sentence end to end, the tool trace, the typed fallback 
 
 ## Human actions waiting
 
-- 14:00 — Person 2: confirm the three recorded test clips exist and where; the tester needs one to run Task 0's smoke script on PR 3, and Task 3 needs clips too.
+- 14:10 — Person 2, on merged PR 1 (Task 4 page): run in a real browser the two checks the tester could not: UI-SPEC acceptance check 6 (everything visible at 1280×720 without scrolling) and a real microphone recording (MediaRecorder → blob → POST `/api/turn`). Flagged "not run" in the PR 1 TEST comment; the TEST: PASS verdict stands for everything else.
+- 14:00 — Person 2: confirm the three recorded test clips exist and where; the tester needs one to run Task 0's smoke script on PR 3, and Task 3 needs clips too. **PR 3 has no TEST verdict at 14:10 and the 0:25 gate is ~55 min past; if no TEST by 14:15 the likely blocker is the missing clip — only a human can record it.**
 - 14:00 — Tester: post the TEST verdict on PR 3 (Task 0). Task 0 is past its 0:25 gate; this verdict is the recovery path.
