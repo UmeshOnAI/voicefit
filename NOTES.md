@@ -129,3 +129,10 @@ third  = await handle.run("... note 'third'")
 [PASS] session rebound by id ran turn 3 -- tool calls=['client.ping']
 SMOKE PASS: all checks passed
 ```
+
+## Task 3 addendum (voice.py, 2026-11-21)
+
+- `app/voice.py` uses exactly the names above: `transcribe()` → `client.audio.transcriptions.complete(model="voxtral-mini-transcribe-3-0", file={"file_name", "content"}, context_bias=vocab.context_bias_terms())` → `.text`; `speak()` → `client.audio.speech.complete(model="voxtral-mini-tts-3-0", input=tag+text, voice_id="voice_478", response_format="mp3")` → base64 `audio_data`, returned as `(bytes, "audio/mpeg")`.
+- Tone mapping in `voice.TONE_TAGS`: pleased `[emotion=happy]`, calm `[emotion=calm][pace=slow]`, neutral no tag. Verified by `scripts/voice_check.py` (exit 0): a synthesized "RDLs, eighty kilos, five, five, six" clip transcribed back as `'RDLs, 80 kilos, 556.'` (contains "RDL"), and three valid mp3s written (`voice-check-{pleased,calm,neutral}.mp3`, gitignored).
+- The `language` parameter was left unset in `transcribe()` (auto-detect) — the brief only asks for model + context_bias, and auto-detect keeps the optional French run possible.
+- **webm/opus uploads:** still not testable locally (no microphone, no ffmpeg on this machine). wav and mp3 uploads were verified accepted by the transcription endpoint in Task 0. `transcribe()` sends the browser's webm/opus blob as-is; if the API ever rejects it, convert to wav before sending and record that here. The browser run (Task 5/6) is the real test.
