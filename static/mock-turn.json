@@ -1,0 +1,38 @@
+{
+  "turn_id": "mock-turn-1",
+  "session_id": "mock-session",
+  "transcript": "RDLs, same weight as last time. Five, five, and five… actually, six on the last set.",
+  "reply_text": "Logged. Sixteen reps at 80 kilos. That's one more than last time.",
+  "tone": "pleased",
+  "audio_base64": null,
+  "audio_mime": "audio/mpeg",
+  "mood": "low",
+  "saved_sessions": [
+    {"saved": true, "session_id": 20, "exercise_id": "romanian_deadlift",
+     "exercise_name": "Romanian deadlift", "weight_kg": 80.0, "reps": [5, 5, 6],
+     "total_reps": 16, "mood": "low",
+     "previous": {"performed_at": "2026-11-18T10:00:00Z", "weight_kg": 80.0,
+                  "reps": [5, 5, 5], "total_reps": 15},
+     "outcome": "beat", "delta_reps": 1}
+  ],
+  "trace": [
+    {"tool": "get_last_session", "args": {"exercise": "rdls"},
+     "result": {"found": true, "exercise_id": "romanian_deadlift",
+                "exercise_name": "Romanian deadlift",
+                "performed_at": "2026-11-18T10:00:00Z", "weight_kg": 80.0,
+                "reps": [5, 5, 5], "total_reps": 15, "mood": "active"},
+     "ms": 4},
+    {"tool": "log_session",
+     "args": {"exercise": "rdls", "weight": 80, "unit": "kg", "reps": [5, 5, 6], "mood": "low"},
+     "result": {"saved": true, "session_id": 20, "outcome": "beat", "delta_reps": 1},
+     "ms": 6}
+  ],
+  "mock_sessions": {
+    "romanian_deadlift": [
+      {"id": 20, "performed_at": "2026-11-21T14:00:00Z", "weight_kg": 80.0, "reps": [5, 5, 6], "total_reps": 16, "mood": "low", "is_seed": false},
+      {"id": 8, "performed_at": "2026-11-18T10:00:00Z", "weight_kg": 80.0, "reps": [5, 5, 5], "total_reps": 15, "mood": "active", "is_seed": true},
+      {"id": 7, "performed_at": "2026-11-14T10:00:00Z", "weight_kg": 80.0, "reps": [5, 4, 4], "total_reps": 13, "mood": "low", "is_seed": true},
+      {"id": 6, "performed_at": "2026-11-11T10:00:00Z", "weight_kg": 80.0, "reps": [5, 5, 5], "total_reps": 15, "mood": "low", "is_seed": true}
+    ]
+  }
+}

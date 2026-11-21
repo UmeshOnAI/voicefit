@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>VoiceFit</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<header>
+  <h1>VoiceFit</h1>
+  <button id="reset-btn" type="button">Reset demo</button>
+</header>
+<div id="error" role="alert" hidden></div>
+<main>
+  <section class="left" aria-label="Voice input">
+    <button id="mic-btn" type="button" aria-label="Microphone">
+      <span class="spinner" aria-hidden="true"></span>
+      <span class="dot" aria-hidden="true">●</span>
+      <span class="mic-text">MIC</span>
+    </button>
+    <p id="status">Tap to speak</p>
+
+    <div class="mood-block">
+      <span class="label">How you feel</span>
+      <div class="chips">
+        <button id="mood-low" class="chip" type="button">Low</button>
+        <button id="mood-active" class="chip" type="button">Active</button>
+        <button id="mood-pumped" class="chip" type="button">Pumped</button>
+      </div>
+    </div>
+
+    <div class="block">
+      <span class="label">Heard</span>
+      <p id="heard"></p>
+    </div>
+
+    <div class="block">
+      <div class="coach-head">
+        <span class="label">Coach</span>
+        <button id="coach-replay" type="button" title="Replay" hidden>♪</button>
+      </div>
+      <p id="coach"></p>
+    </div>
+
+    <form id="text-form" autocomplete="off">
+      <input id="text-input" type="text" placeholder="type instead…" aria-label="Type your entry">
+      <button id="send-btn" type="submit">Send</button>
+    </form>
+    <audio id="coach-audio" preload="auto"></audio>
+  </section>
+
+  <section class="right" aria-label="Sessions and tool trace">
+    <h2 class="label">Sessions</h2>
+    <div id="sessions"></div>
+    <details id="trace">
+      <summary id="trace-summary">TOOL TRACE (0 calls)</summary>
+      <div id="trace-list"></div>
+    </details>
+  </section>
+</main>
+<script src="app.js"></script>
+</body>
+</html>
